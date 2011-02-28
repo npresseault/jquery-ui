@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI Accordion - Default functionality</title>
+	<link rel="stylesheet" href="../../themes/base/jquery.ui.all.css">
+	<script src="../../jquery-1.4.4.js"></script>
+	<script src="../../ui/jquery.ui.core.js"></script>
+	<script src="../../ui/jquery.ui.widget.js"></script>
+	<script src="../../ui/jquery.ui.mouse.js"></script>
+	<script src="../../ui/jquery.ui.sortable.js"></script>
+	<script src="../../ui/jquery.ui.draggable.js"></script>
+	<script src="../../ui/jquery.ui.autobox.js"></script>
+	<link rel="stylesheet" href="../demos.css">
+	<script>
+	
+	$(function() {
+		var tags = [
+			"php",
+			"banana",
+			"monkey"
+		];
+		var autoboxOpt = {
+			create: function( event, ui ) {
+				$( "#autobox-raw" ).val( $( "#autobox" ).val() )
+			},
+			change: function( event, ui ) {
+				$( "#autobox-raw" ).val( $( "#autobox" ).val() )
+			}
+		};
+		
+		$( "#autobox" ).autobox(autoboxOpt);
+		$( "#autobox-div ul" )
+			.sortable({
+				//placeholder: "ui-state-highlight",
+				revert: true,
+				cancel: ".ui-autobox-text, .ui-autobox-spacer",
+				update: function( event, ui ) {
+					$( "#autobox" ).autobox( "refresh" );
+				}
+			})
+		$.each(tags, function(i, tag) {
+			$( "<li></li>" )
+				.text(tag)
+				.addClass( "ui-autobox-tag" )
+				.appendTo( "#variables" )
+				.draggable({
+					connectToSortable: "#autobox-div ul",
+					helper: "clone",
+					revert: "invalid"
+				});
+			});
+		$( "ul, li" ).disableSelection();
+		
+		$( "#autobox-destroy" )
+			.click( function() {
+				$( "#autobox" ).autobox( "destroy" );
+			});
+	});
+	
+	</script>
+</head>
+<body>
+
+<div class="demo">
+
+<input type="text" id="autobox" value="initial text ${php} lala ${monkey} ${banana}" style="width: 400px;" />
+<input type="text" id="autobox-raw" value="" size="50" />
+<input type="button" id="autobox-destroy" value="Destroy" size="50" />
+<br />
+
+<div class="ui-autobox" style="overflow:visible;">
+<ul id="variables">
+</ul>
+</div>
+
+</div><!-- End demo -->
+
+<div class="demo-description">
+</div><!-- End demo-description -->
+
+</body>
+</html>
